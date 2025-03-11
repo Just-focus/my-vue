@@ -9,7 +9,7 @@ function createRef(value) {
 // 依赖收集
 export function trackRefValue(ref) {
   if(activeEffect) {
-    trackEffect(activeEffect, (ref.dep = createDep(() => (ref.dep = undefined))));
+    trackEffect(activeEffect, (ref.dep = ref.dep || createDep(() => (ref.dep = undefined))));
   }
 }
 
@@ -90,4 +90,8 @@ export function proxyRefs(objectWithRefs) {
       }
     },
   });
+}
+
+export function isRef(value) {
+  return !!(value && value.__v_isRef);
 }
